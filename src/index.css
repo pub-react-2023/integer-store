@@ -1,0 +1,21 @@
+body {
+  font-family: "Google Sans", sans-serif;
+
+  & .products-filter {
+    display: flex;
+  }
+
+  & .products-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    > .product {
+      width: 256px;
+
+      > img {
+        max-width: 100%;
+      }
+    }
+  }
+}
