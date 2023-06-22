@@ -140,13 +140,12 @@ export default function App() {
                 : b[sortBy] - a[sortBy]
             )
             .filter(
-              (product, i) =>
+              (product) =>
                 product.name.toLowerCase().includes(keyword) &&
                 product.price >= minPrice &&
-                product.price <= maxPrice &&
-                i < 4 * page &&
-                i >= 4 * page - 4
+                product.price <= maxPrice
             )
+            .filter((_product, i) => i < 4 * page && i >= 4 * page - 4)
             .map((product) => (
               <Product key={product.id} {...product} />
             ))}
