@@ -85,6 +85,17 @@ export default function App() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [page, setPage] = useState(1);
 
+  const filteredSortedProducts = products
+    .toSorted((a, b) =>
+      sortOrder === "asc" ? a[sortBy] - b[sortBy] : b[sortBy] - a[sortBy]
+    )
+    .filter(
+      (product) =>
+        product.name.toLowerCase().includes(keyword) &&
+        product.price >= minPrice &&
+        product.price <= maxPrice
+    );
+
   return (
     <>
       <Header />
@@ -133,18 +144,7 @@ export default function App() {
           </section>
         </header>
         <main>
-          {products
-            .toSorted((a, b) =>
-              sortOrder === "asc"
-                ? a[sortBy] - b[sortBy]
-                : b[sortBy] - a[sortBy]
-            )
-            .filter(
-              (product) =>
-                product.name.toLowerCase().includes(keyword) &&
-                product.price >= minPrice &&
-                product.price <= maxPrice
-            )
+          {filteredSortedProducts
             .filter((_product, i) => i < 4 * page && i >= 4 * page - 4)
             .map((product) => (
               <Product key={product.id} {...product} />
@@ -157,7 +157,7 @@ export default function App() {
           <div>{page}</div>
           <button
             onClick={() => setPage(page + 1)}
-            disabled={page === Math.round(products.length / 4)}
+            disabled={page === Math.round(filteredSortedProducts.length / 4)}
           >
             Selanjutnya
           </button>
