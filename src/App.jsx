@@ -86,9 +86,13 @@ export default function App() {
   const [page, setPage] = useState(1);
 
   const filteredSortedProducts = products
-    .toSorted((a, b) =>
-      sortOrder === "asc" ? a[sortBy] - b[sortBy] : b[sortBy] - a[sortBy]
-    )
+    .toSorted((a, b) => {
+      if (sortOrder === "asc") {
+        return a[sortBy] < b[sortBy] ? -1 : 1;
+      } else {
+        return a[sortBy] > b[sortBy] ? -1 : 1;
+      }
+    })
     .filter(
       (product) =>
         product.name.toLowerCase().includes(keyword) &&
@@ -132,6 +136,7 @@ export default function App() {
             Urutkan:
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
               <option value="id">Normal</option>
+              <option value="name">Nama</option>
               <option value="price">Harga</option>
             </select>
             <select
